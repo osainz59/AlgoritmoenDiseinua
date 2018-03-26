@@ -1,0 +1,12 @@
+Algoritmoen Diseinua-ko 1. Inplementazioa
+Oscar Sainz
+
+
+Konpilatzeko:
+	G++ konpiladorea erabiltzen duen Makefile bat dago karpetan beharrezkoa den konfigurazioarekin. Windows-en edo beste konpilatzaile bat erabiltzen bada main programa test_Grafoa.cpp fitxategian dago.
+
+Komentario/Iruzkinak Dokumentazioa:
+	Grafoen eta metodo guztien dokumentazioa .hpp (Header) fitxategietan dago, errazago ikusten delako. Kode fitxategietan (Source) hainbat iruzkin puntual daude algoritmoak pixkat azaltzeko edo markak nola erabili diren.
+	
+Fitxategiak kargatzerakoan:
+	Proba_Fitxategiak/[fitxategiaren-izena].txt erabili
