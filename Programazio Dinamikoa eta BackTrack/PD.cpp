@@ -18,7 +18,6 @@ int SPD(std::vector<int> &emaitza, int N, int M, std::vector<int> &T, std::vecto
 	for (int i = 1; i<=N; i++) {
 		for (int j = 1; j<=M; j++) {
 			//Ekuazioak
-
 			int k = j / T[i];
 			int max = 0, max_z = 0;
 			if (k > Os[i]) k = Os[i];

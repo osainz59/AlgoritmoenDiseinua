@@ -24,13 +24,14 @@ void SBT1NProz(std::vector<int> &spb,		// Soluzio partzialaren bektorea
 			   std::vector<int> &gehienez)	// Gehienez lor dezakeen onura 				
 {	
 
-	if ( m == 0 && sp > sopt) {	// Soluzioa da eta uneko optimoa baino hobea
-		for (int i = 1; i<=N; i++) {
-			soptb[i] = spb[i];
-		}
-		sopt = sp;
-	}
-
+	if ( m == 0) {	// Soluzioa da eta uneko optimoa baino hobea
+		if (sp > sopt) {
+			for (int i = 1; i<=N; i++) {
+				soptb[i] = spb[i];
+			}
+			sopt = sp;
+		}	
+	} else
 	for (int i = I; i<=N; i++) {	// 1. KIMAKETA <-- Soluzio berdinak behin eta berriz ez kalkulatzeko.
 		// 2. KIMAKETA <-- Gehienez lor dezakeena soluzio partziala hobetzen ez badu ebaki.
 		if ( gehienez[i] - (spb[i]*On[i]) < sopt - sp) continue;	
@@ -122,7 +123,7 @@ void SBT01Proz(std::vector<int> &spb,		// Soluzio partzialaren bektorea
 	else {								// Soluzioa ez bada eta emaitza hobetu badezake hurrengoak begiratu
 		int kop_max = std::floor(min(Os[I], m / T[I]));
 		//std::cout << I << " " << Os[I] << "/" << m / T[I] << "=" << kop_max << std::endl;
-		for (int i = kop_max; i >= 0; i--) {
+		for (int i = kop_max; i >= 0; i--) {	// 3. KIMAKETA 
 
 			spb[I] = i;
 			SBT01Proz(spb, sp+(i*On[I]), N, I+1, m-(i*T[I]), Os, T, On, soptb, sopt, gehienez);

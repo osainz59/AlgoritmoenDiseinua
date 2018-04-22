@@ -1,0 +1,21 @@
+Programazio Dinamikoko Testa
+Emaitza: 279
+Denbora: 1010 μs
+BackTrack 01-eko testa
+Emaitza: 279
+Denbora: 14 μs
+BackTrack 1N-ko testa
+Emaitza: 279
+Denbora: 8 μs
+## Emaitza:
+279
+24 6
+30 10
+24 8
+40 4
+7 7
+14 2
+80 10
+3 3
+48 6
+9 3
