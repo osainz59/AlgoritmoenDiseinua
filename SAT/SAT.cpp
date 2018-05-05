@@ -1,8 +1,11 @@
 #include "BT.hpp"
 #include <vector>
 #include <utility>
+#include <queue>
 
 std::vector<std::pair<std::vector<int>, int> >  Formula;
+int NV;
+int NC;
 '''
                    A   B   C   D   E   F   G
 (A v ¬B)        [  1, -1,  0,  0,  0,  0,  0 ] | B (1)
@@ -26,7 +29,8 @@ begin
     else
         zerrenda_false, zerrenda_true = hasieratu_zerrenda();
         while not KlausulaZerrenda.isEmpty() loop
-            klausula = KlausulaZerrenda.pop();
+            klausula = KlausulaZerrenda.top();
+            KlausulaZerrenda.pop();
 
             if Formula[klausula].handiena < I then
                 return False;
@@ -47,3 +51,47 @@ begin
         return False;
 end SATBT
 '''
+
+
+bool SATBT(std::vector<bool> &SP, int I, std::queue<int> &KlausulaZerrenda){
+
+    // Klausula guztiak TRUE dira beraz Formula TRUE da.
+    if (KlausulaZerrenda.isEmpty()) return true;    
+    // Bukaerara iritsi gara eta ez da soluziorik aurkitu
+    else if (I > NV) return false;      
+    // Ebaluatu gelditzen diren klausulak I. literalarekin.            
+    else
+    {                                               
+        std::queue<int> false_zerrenda, true_zerrenda;
+        int klausula;
+        while (!KlausulaZerrenda.isEmpty())
+        {
+            klausula = KlausulaZerrenda.front();
+            KlausulaZerrenda.pop();
+
+            // Klausula huts bat da, beraz Formula ez da Betegarria
+            if (Formula[klausula].second < I) return false; 
+
+            // Ez bada existitzen I literala klausula horretan true emanez klausula true emango duenik
+            // aztertzen jarraitu behar da.
+            if (Formula[klausula].first[I] != 1) true_zerrenda.push(klausula);  
+
+            // Ez bada existitzen I literala klausula horretan false emanez klausula true emango duenik
+            // aztertzen jarraitu behar da.
+            if (Formula[klausula].first[I] != -1) false_zerrenda.push(klausula); 
+        }
+
+        SP[I] = false;
+        if SATBT(SP, I+1, zerrenda_false) return true;
+        SP[I] = true;
+        if SATBT(SP, I+1, zerrenda_true) return true;
+    }
+
+    // Azpizuhaitza aztertu ondoren ez da aurkitu soluziorik.
+    return false;
+
+}
+
+bool SAT(std::string &sarrera_fitxategia) {
+    
+}

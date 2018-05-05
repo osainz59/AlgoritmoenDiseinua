@@ -1,12 +1,12 @@
 Programazio Dinamikoko Testa
 Emaitza: 279
-Denbora: 1010 μs
+Denbora: 1127 μs
 BackTrack 01-eko testa
 Emaitza: 279
-Denbora: 14 μs
+Denbora: 18 μs
 BackTrack 1N-ko testa
 Emaitza: 279
-Denbora: 8 μs
+Denbora: 13 μs
 ## Emaitza:
 279
 24 6
