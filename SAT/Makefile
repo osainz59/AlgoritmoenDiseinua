@@ -1,8 +1,10 @@
-all: pd
-	./test sarrera.txt emaitza.txt
+all: SAT
 
-pd:  test.cpp SAT.cpp SAT.cpp
-	g++ -std=c++11 -o test test.cpp SAT.cpp SAT.cpp
+SAT: test.cpp SAT.cpp
+	g++ -std=c++11 -o test test.cpp SAT.cpp
+
+SORTU: sortu_proba_fitx.cpp
+	g++ -std=c++11 -o sortu sortu_proba_fitx.cpp
 
 clean:
 	rm -f test
