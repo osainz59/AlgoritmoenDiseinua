@@ -2,6 +2,7 @@
 #include <string>
 #include "SAT.hpp"
 #include <fstream>
+#include <algorithm>
 
 
 
@@ -18,11 +19,39 @@ int main(int argc, char **argv){
         std::string PATH(argv[1]);
         std::cout << "SAT azkarra:\n";
         std::cout << "Emaitza: " << SAT(PATH, DK) << std::endl;
-        std::cout << "SAT geldoa:\n";
-        std::cout << "Emaitza: " << SAT_geldoa(PATH, DK) << std::endl;
+        std::cout << "DK: " << DK << std::endl;
+        //std::cout << "SAT geldoa:\n";
+        //std::cout << "Emaitza: " << SAT_geldoa(PATH, DK) << std::endl;
+        //std::cout << "DK: " << DK << std::endl;
 
         return 0;
     }
+    
+    // SARRERA FITXATEGIEN PATH-a
+    std::string PATH[4] = { "uf20", "uf50", "uf75", "uf100"};
+
+    std::vector<long> soluzio_azkarrak(100), soluzio_geldoak(100);
+    long soluzioa = 0;
+
+    for (int i = 0; i<4; i++) {
+        std::cout << PATH[i] << std::endl;
+        std::string sarrera_path;
+        for (int j = 1; j<=100; j++) {
+            sarrera_path = "sarrerak/" + PATH[i] + "/" + PATH[i] + "-0";
+            sarrera_path += std::to_string(j);
+            sarrera_path += ".cnf";
+            SAT(sarrera_path, soluzioa);
+            soluzio_azkarrak[j-1] = soluzioa;
+            //SAT_geldoa(sarrera_path, soluzioa);
+            //soluzio_geldoak[j-1] = soluzioa;
+        }
+        std::sort(soluzio_azkarrak.begin(), soluzio_azkarrak.end());
+        std::cout << "Soluzio azkarrak DP: " << soluzio_azkarrak[50] << std::endl;
+        //std::sort(soluzio_geldoak.begin(), soluzio_geldoak.end());
+        //std::cout << "Soluzio geldoak DP: " << soluzio_geldoak[50] << std::endl;
+    }
+    
+    /*
     
     std::string PATH;
 
@@ -118,5 +147,5 @@ int main(int argc, char **argv){
     emaitza_faltsua_azkarra.close();	
     emaitza_egiazko_geldoa.close();	
     emaitza_faltsua_geldoa.close();
-    
+    */
 }

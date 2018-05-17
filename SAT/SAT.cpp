@@ -40,10 +40,15 @@ void kargatu_formula(std::string &sarrera_fitxategia) {
         sarrera.open(sarrera_fitxategia);
         if (sarrera.is_open()) {
             // Lehenengo 5 lerroak jauzi
-            for (int i = 0; i<5; i++) std::getline(sarrera, lag);
+            do {
+                if (lag == "p") {
+                    sarrera >> lag;
+                    if (lag == "cnf") break;
+                } else sarrera >> lag;
+            }while(1);
 
-            sarrera >> lag; // p
-            sarrera >> lag; // cnf
+            //sarrera >> lag; // p
+            //sarrera >> lag; // cnf
             sarrera >> NV >> NC;
 
             //Formula.resize(NC); // NC klausula egongo dira.
@@ -136,7 +141,7 @@ bool SATBT(std::vector<bool> &SP, int I, std::queue<int> &KlausulaZerrenda){
     else
     {                                               
         std::queue<int> false_zerrenda, true_zerrenda;
-        int klausula;
+        int klausula, kop = 0, kop_false = 0, kop_true = 0;
         while (!KlausulaZerrenda.empty())
         {
             klausula = KlausulaZerrenda.front();
@@ -147,22 +152,42 @@ bool SATBT(std::vector<bool> &SP, int I, std::queue<int> &KlausulaZerrenda){
 
             // Ez bada existitzen I literala klausula horretan true emanez klausula true emango duenik
             // aztertzen jarraitu behar da.
-            if (Formula[klausula].first[I] != 1) true_zerrenda.push(klausula);  
+            if (Formula[klausula].first[I] != 1) {
+                true_zerrenda.push(klausula); 
+                kop_true++;
+            }  
 
             // Ez bada existitzen I literala klausula horretan false emanez klausula true emango duenik
             // aztertzen jarraitu behar da.
-            if (Formula[klausula].first[I] != -1) false_zerrenda.push(klausula); 
+            if (Formula[klausula].first[I] != -1) {
+                false_zerrenda.push(klausula); 
+                kop_false++;
+            }
+            kop++;
         }
         // TRAZA: std::cout << I << "-->";
         int J = lortu_hurrengoa(I);
         // TRAZA: std::cout << J << std::endl;
 
-        // Adarkatu false bezela
-        SP[I] = false;
-        if (SATBT(SP, J, false_zerrenda)) return true;
-        // Adarkatu true bezela
-        SP[I] = true;
-        if (SATBT(SP, J, true_zerrenda)) return true;
+
+        if (kop_true < kop_false) {                             // True jarrita klausula gutxiago gelditzen dira, beraz lehenengo True bezela adarkatu
+            SP[I] = true;
+            if (SATBT(SP, J, true_zerrenda)) return true;
+
+            if (kop_false < kop) {
+                SP[I] = false;                                  
+                if (SATBT(SP, J, false_zerrenda)) return true;
+            }
+
+        } else {                                                // False jarrita klausula gutxiago gelditzen dira, beraz lehenengo False bezela adarkatu
+            SP[I] = false;                                      // Berdinak badira False-tik hasi
+            if (SATBT(SP, J, false_zerrenda)) return true;
+
+            if (kop_true < kop) {                               // True klausula zerrendaren luzera ez bada hasierakoa baino txikiagoa ez adarkatu
+                SP[I] = true;
+                if (SATBT(SP, J, true_zerrenda)) return true;
+            }
+        }      
     }
 
     // Azpizuhaitza aztertu ondoren ez da aurkitu soluziorik.
